@@ -1,0 +1,80 @@
+======================================================================
+INFORME TÉCNICO - PRÁCTICA INDIVIDUAL N° 2
+======================================================================
+
+1. NOMBRE DEL ESTUDIANTE
+Sandra Silva
+
+2. TÍTULO DEL CASO
+Tiempo de atención en cajas de un supermercado
+
+3. FORMULACIÓN DEL PROBLEMA
+En un supermercado se han recibido quejas de clientes por demoras en las
+cajas durante las horas de mayor afluencia. La administración necesita
+conocer el comportamiento real del tiempo de atención por cliente, para
+identificar si existen casos atípicos (incidencias puntuales) que distorsionen
+el promedio y, más adelante, poder dimensionar el número de cajas necesarias.
+
+4. VARIABLE PRINCIPAL
+Tiempo de atención en caja (tiempo_atencion_min): minutos que tarda el
+cajero en atender a un cliente, desde que empieza a registrar los productos
+hasta que entrega el comprobante de pago. Es una variable cuantitativa
+continua, medida en minutos.
+
+5. SUPUESTOS
+- Los datos son simulados (sintéticos), generados con una distribución
+  Exponencial (media 3.2 min), semilla fija (2026) para reproducibilidad.
+- Se asume que cada observación es independiente de las demás.
+- Se incluyó deliberadamente un valor extremo (observación 25 = 18.40 min)
+  para representar una incidencia real (por ejemplo, un reclamo o un billete
+  falso) y poder ilustrar la detección de outliers.
+- Criterio de exclusión de outliers: |Z-Score| >= 2.5.
+
+6. ESTADÍSTICOS DESCRIPTIVOS (con los 30 datos originales)
+- n                    : 30
+- Media                : 3.65 min
+- Mediana              : 2.87 min
+- Desviación estándar  : 3.74 min
+- Mínimo               : 0.06 min
+- Máximo               : 18.40 min
+- Coef. de variación   : 1.03
+
+7. VALORES ATÍPICOS (OUTLIERS) DETECTADOS CON Z-SCORE
+Criterio: se excluye toda observación con |Z| >= 2.5
+
+Se detectaron 1 outlier(s):
+ id_observacion  tiempo_atencion_min  z_score
+             25                 18.4 4.006675
+
+8. ANÁLISIS DESCRIPTIVO DE LA VARIABLE (datos depurados)
+- n depurado           : 29
+- Media                : 3.14 min
+- Mediana              : 2.82 min
+- Desviación estándar  : 2.55 min
+- Mínimo               : 0.06 min
+- Máximo               : 9.90 min
+- Coef. de variación   : 0.81
+
+9. INTERPRETACIÓN TÉCNICA
+La media de atención sin depurar (3.65 min) está inflada
+por el valor atípico de 18.40 min (Z = 4.01),
+muy por encima del umbral de 2.5. Al depurar ese dato, la media baja a
+3.14 min, un valor más representativo del servicio normal.
+El coeficiente de variación depurado (0.81) sigue siendo alto,
+lo que indica que el tiempo de atención es bastante variable incluso sin
+incidencias, algo típico de un proceso con distribución Exponencial
+(muchos clientes rápidos y algunos pocos que tardan bastante más).
+
+10. CONCLUSIÓN
+El sistema de cajas del supermercado presenta un tiempo de atención
+promedio de 3.14 minutos por cliente en condiciones
+normales. Se identificó una observación atípica que corresponde a una
+incidencia puntual y no a la operación habitual, por lo que debe excluirse
+del análisis de desempeño regular, aunque sí debe registrarse aparte como
+evento especial. Se recomienda recolectar más datos en distintos horarios y,
+en una siguiente etapa, formular un modelo de colas (por ejemplo, M/M/1 o
+M/M/c) para evaluar el número óptimo de cajas abiertas en horas pico.
+
+======================================================================
+Total de observaciones procesadas: 30
+======================================================================
